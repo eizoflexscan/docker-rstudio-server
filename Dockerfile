@@ -13,7 +13,7 @@ RUN wget -O /tmp/rstudio.deb http://download2.rstudio.org/rstudio-server-0.99.90
 RUN adduser --disabled-password --gecos "" guest && echo "guest:guest"|chpasswd
 
 RUN wget -O /tmp/caret.tar.gz https://cran.r-project.org/src/contrib/caret_6.0-70.tar.gz && \
-    R CMD INSTALL /tmp/caret.tar.gz &&
+    R CMD INSTALL /tmp/caret.tar.gz && \
     rm /tmp/caret.tar.gz
 
 RUN mkdir -p /data/ml && chown guest /data/ml
