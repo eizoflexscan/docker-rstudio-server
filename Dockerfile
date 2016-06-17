@@ -12,6 +12,9 @@ RUN wget http://download2.rstudio.org/rstudio-server-0.99.902-amd64.deb && \
 
 RUN adduser --disabled-password --gecos "" guest && echo "guest:guest"|chpasswd
 
+RUN mkdir -p /data/ml && chown guest /data/ml
+VOLUME /data/ml
+
 EXPOSE 8787
 
 CMD ["/usr/lib/rstudio-server/bin/rserver"]
