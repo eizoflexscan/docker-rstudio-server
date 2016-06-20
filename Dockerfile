@@ -10,7 +10,16 @@ RUN apt-get update && apt-get install -y gdebi-core libapparmor1 wget libcurl4-o
 RUN codename=$(lsb_release -c -s) && \
 	echo "deb http://freestatistics.org/cran/bin/linux/ubuntu $codename/" | tee -a /etc/apt/sources.list > /dev/null && \
 	apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9 && \
-	apt-get update && apt-get install -y r-base r-base-dev
+	apt-get update && apt-get install -y r-base r-base-dev && \
+	rm -rf /var/lib/apt/lists/*
+
+## Configure default locale, see https://github.com/rocker-org/rocker/issues/19
+RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
+    && locale-gen en_US.utf8 \
+    && /usr/sbin/update-locale LANG=en_US.UTF-8
+
+ENV LC_ALL en_US.UTF-8
+ENV LANG en_US.UTF-8
 	
 # install RStudio
 RUN wget -O /tmp/rstudio.deb http://download2.rstudio.org/rstudio-server-0.99.902-amd64.deb && \
@@ -20,16 +29,15 @@ RUN wget -O /tmp/rstudio.deb http://download2.rstudio.org/rstudio-server-0.99.90
 RUN adduser --disabled-password --gecos "" guest && echo "guest:guest"|chpasswd
 
 # install R libraries
-RUN echo 'install.packages(c("ggplot2","caret","tidyr","stringr","caretEnsemble","party","devtools"), repos="http://cran.us.r-project.org", dependencies=TRUE)' > /tmp/packages.R &&  \
-	Rscript /tmp/packages.R && \
-	rm /tmp/packages.R && \
-	echo 'library("devtools"); install_github("mbojan/alluvial")' > /tmp/packages.R && \
-	Rscript /tmp/packages.R && \
-	rm tmp/packages.R
+RUN R -e 'install.packages(c("ggplot2","caret","tidyr","stringr","caretEnsemble","party","devtools"), repos="http://cran.freestatistics.org/", dependencies=NA,clean=TRUE)' > /tmp/packages.R && \
+	R -e  'library("devtools"); install_github("mbojan/alluvial")' &&  \
 
+# Create a data directory and mount it
 RUN mkdir -p /data/ml && chown guest /data/ml
 VOLUME /data/ml
 
+# Expose the RStudio Server port
 EXPOSE 8787
 
+# Start RStudio Server 
 CMD ["/usr/lib/rstudio-server/bin/rserver", "--server-daemonize 0"]
