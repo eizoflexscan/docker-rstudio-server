@@ -15,6 +15,9 @@ RUN adduser --disabled-password --gecos "" guest && echo "guest:guest"|chpasswd
 
 # install R libraries
 RUN echo "r <- getOption('repos'); r['CRAN'] <- 'http://cran.us.r-project.org'; options(repos = r);" > ~/.Rprofile
+RUN echo 'install.packages(c("caret","tidyr","stringr","caretEnsemble","party","devtools"), repos="http://cran.us.r-project.org", dependencies=TRUE)' > /tmp/packages.R \
+    && Rscript /tmp/packages.R
+    && rm /tmp/packages.R
 #RUN Rscript -e "install.packages('yhatr')"
 #RUN Rscript -e "install.packages('ggplot2')"
 #RUN Rscript -e "install.packages('plyr')"
