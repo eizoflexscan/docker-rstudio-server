@@ -14,7 +14,7 @@ RUN codename=$(lsb_release -c -s) && \
 	apt-get update && apt-get install -y r-base r-base-dev
 
 # install R libraries
-RUN R -e 'install.packages(c("ggplot2","caret","tidyr","stringr","caretEnsemble","party","devtools"), repos="http://cran.freestatistics.org/", dependencies=NA,clean=TRUE)' > /tmp/packages.R && \
+RUN R -e 'install.packages(c("ggplot2","caret","tidyr","stringr","caretEnsemble","party","devtools","randomForest","ada","doMC"), repos="http://cran.freestatistics.org/", dependencies=NA,clean=TRUE)' > /tmp/packages.R && \
 	R -e  'library("devtools"); install_github("mbojan/alluvial")' 
 		
 # install RStudio
@@ -31,20 +31,14 @@ ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
 
 # Add users for RStudio
-RUN adduser --disabled-password --gecos "" smart && echo "smart:SleepingInClass"|chpasswd
-RUN adduser --disabled-password --gecos "" studious && echo "studious:InTheLibrary"|chpasswd
-RUN adduser --disabled-password --gecos "" ingenious && echo "ingenious:TweakingApps"|chpasswd
-RUN adduser --disabled-password --gecos "" amazing && echo "amazing:CombingHair"|chpasswd
-
+ADD build_logins.sh /tmp/build_logins.sh
+RUN chmod +x /tmp/build_logins.sh && \
+ 	./tmp/build_logins.sh 4 && \
+ 	rm /tmp/build_logins.sh
 
 # Remove the package list to reduce image size. Note: do this as the last thing of the build process as installs can fail due to this!
 RUN rm -rf /var/lib/apt/lists/*
 
-# Create a data directory and mount it
-RUN mkdir -p /data/ml/smart && chown smart /data/ml/smart
-RUN mkdir -p /data/ml/studious && chown studious /data/ml/studious
-RUN mkdir -p /data/ml/ingenious && chown ingenious /data/ml/ingenious
-RUN mkdir -p /data/ml/amazing && chown amazing /data/ml/amazing
 
 #VOLUME /data/ml
 
