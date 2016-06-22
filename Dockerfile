@@ -42,8 +42,11 @@ RUN chmod +x /tmp/build_logins.sh && \
 RUN apt-get clean && \
 	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+#Add shell script with startup commands
+ADD run.sh /init/run.sh
+
 # Expose the RStudio Server port
 EXPOSE 8787
 
 # Start RStudio Server 
-CMD ["/usr/lib/rstudio-server/bin/rserver", "--server-daemonize 0"]
+CMD ["./init/run.sh"]
