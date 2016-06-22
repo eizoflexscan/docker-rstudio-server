@@ -40,10 +40,7 @@ RUN chmod +x /tmp/build_logins.sh && \
 # Remove the package list to reduce image size. Note: do this as the last thing of the build process as installs can fail due to this!
 # Additional cleanup
 RUN apt-get clean && \
-	&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-
-#VOLUME /data/ml
+	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Expose the RStudio Server port
 EXPOSE 8787
