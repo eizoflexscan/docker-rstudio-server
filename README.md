@@ -27,6 +27,8 @@ This image is based on [bigboards/docker-rstudio-server](https://github.com/bigb
 ### run.sh
 
 
- 
+**[Back to top](#table-of-contents)**
 
+## License
 
+The MIT License
