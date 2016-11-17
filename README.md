@@ -111,7 +111,7 @@ ENV LANG en_US.UTF-8
 ```
 
 
-### Step 8: Add users for RStudio
+### Step 8: Define users and passwords for RStudio
 The ADD command gets two arguments: a source and a destination. It basically copies the configuration file `build_logins.sh` from the source on the host into the container's own filesystem at the set destination to specify users and passwords. 
 
 Note that the sleep is only added because older versions of docker have an issue with chmod.
@@ -143,6 +143,7 @@ EXPOSE 8787
 ```
 
 ###  Step 12: Start RStudio Server 
+The command CMD, similarly to RUN, can be used for executing a specific command. However, unlike RUN it is not executed during build, but when a container is instantiated using the image being built. Therefore, it should be considered as an initial, default command that gets executed (i.e. run) with the creation of containers based on the image to start RStudio Server.
 ```sh
 CMD ["./init/run.sh"]
 ```
