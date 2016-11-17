@@ -1,7 +1,7 @@
 # docker-rstudio-server
 ===============================
 
-# Table of Contents
+## Table of Contents
 1. [Overview](#overview)
 2. [Files Description](#files)
 	# Dockerfile
