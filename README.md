@@ -15,7 +15,8 @@ This has proven useful,
 * if you want all your team members to work on the same R installation
 
 This image was originally developed by Koen Rutten for workshops using [Rstudio Server](https://www.rstudio.com/products/rstudio/#Server) as X instances on [Bigboard](www.bigboards.io).
-But it can also be combined with Hadoop, Sark and Shiny to get a full R Stack.  
+But it can also be combined with Hadoop, Spark and Shiny to get a full R Stack (see [R on Spark on Yarn](http://hive.bigboards.io/#/library/stack/google-oauth2-113490423275171641798/cm-r-stack) for details).  
+
 
 ## Files Description
 
@@ -54,6 +55,28 @@ RUN set -e \
     libcurl4-openssl-dev 
 ```
 
+#### Step 4: Install latest R Base
+A full description of R installation processes can be found at the following [link](https://cran.rstudio.com/bin/linux/ubuntu/README.html).
+
+	```sh   
+	RUN set -e \
+    	&& codename=$(lsb_release -c -s) && \	
+        && echo "deb http://freestatistics.org/cran/bin/linux/ubuntu $codename/" | tee -a /etc/apt/sources.list > /dev/null \
+        && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9 \
+        && apt-get -y update \
+		&& apt-get install -y r-base r-base-dev \
+		&& apt-get clean
+	```
+	
+
+	*  Obtain the latest R packages (line 1). Add an entry with URL of your favorite CRAN mirror (See https://cran.r-project.org/mirrors.html for the list of CRAN mirrors) and choose your Ubuntu operating
+	system (Xenial 16.04, Trusty 14.04 or Precise 12.04) 
+	*  Use strong crypto to validate downloaded packages (line 2). The Ubuntu archives on CRAN are signed with the key of “Michael Rutter marutter@gmail.com” with key ID E084DAB9. To add the key to your system with one command use
+	<sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9> 
+	*  Install the complete R system (line 3-4), use <sudo apt-get install r-base>
+	*  Install the r-base-dev package (line 5). Users who need to instal packages with "install.packages()" should also install the r-base-dev package 
+
+
 ###Step 4: Install R version
 
 #### Step 4.1: Install R 
@@ -71,34 +94,6 @@ This is unrequired. It's simple to fix a bug
 	```
 
 	
-#### Step 4.2: Install R 
-To install the latest version of R you should first add the CRAN repository to your system as described here:
-	```sh
-    RUN codename=$(lsb_release -c -s) && \
-	echo "deb http://freestatistics.org/cran/bin/linux/ubuntu $codename/" | tee -a /etc/apt/sources.list > /dev/null 		&& \
-	apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9 && \
-	apt-get update \
-    && apt-get install -y r-base r-base-dev
-
-    
-    
-	## From https://cran.rstudio.com/bin/linux/ubuntu/README.html
-	RUN set -e \
-		  && echo 'deb https://cloud.r-project.org/bin/linux/ubuntu xenial/' >> /etc/apt/sources.list \
-		  && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9 \
-		  && apt-get -y update \
-		  && apt-get -y install r-base r-cran-* \
-		  && apt-get install r-base-dev \
-		  && apt-get clean
-	```
-	
-
-	*  Obtain the latest R packages (line 1). Add an entry with URL of your favorite CRAN mirror (See https://cran.r-project.org/mirrors.html for the list of CRAN mirrors) and choose your Ubuntu operating
-	system (Xenial 16.04, Trusty 14.04 or Precise 12.04) 
-	*  Use strong crypto to validate downloaded packages (line 2). The Ubuntu archives on CRAN are signed with the key of “Michael Rutter marutter@gmail.com” with key ID E084DAB9. To add the key to your system with one command use
-	<sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9> 
-	*  Install the complete R system (line 3-4), use <sudo apt-get install r-base>
-	*  Install the r-base-dev package (line 5). Users who need to instal packages with "install.packages()" should also install the r-base-dev package 
 
 
 
@@ -151,6 +146,4 @@ password: rstudio
 
 It currently uses the Rstudio Server open-source edition so there is no load-balancing. If you need load-balancing, you can either upgrade to the Commercial License edition or use [Architect Server](https://www.openanalytics.eu/products) from [OpenAnalytics](https://www.openanalytics.eu/). 
 
-## License
 
-The MIT License
