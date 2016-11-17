@@ -10,7 +10,7 @@ This repository contains the necessary files for setting up a  [Rstudio Server](
 
 Rstudio is an integrated development environment (IDE) targeted specifically at data scientists. The server version  allows one to work with R on a remote server as if it were a local R Console.
 
-This has proven useful
+This has proven useful,
 * if you need to run your analysis on a high-end server rather than your laptop
 * if you want all your team members to work on the same R installation
 
