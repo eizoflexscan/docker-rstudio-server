@@ -129,7 +129,7 @@ Remove the R package list to reduce image size. This is done as the last thing o
 
 ```
 RUN apt-get clean \
-	\&\& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+	&amp;&amp; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 ```
 
 ### Step 10: Add shell script with startup commands
