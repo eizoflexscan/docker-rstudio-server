@@ -16,11 +16,20 @@ This has proven useful
 * when connecting to R on a cloud instance
 
 
-This image is based on [bigboards/docker-rstudio-server](https://github.com/bigboards/docker-rstudio-server "bigboards/docker-rstudio-server") originally developed by KoenR3 for workshops using [Rstudio Server](https://www.rstudio.com/products/rstudio/#Server) as X instances on [Bigboard](www.bigboards.io). It currently uses the Rstudio Server open-source edition so there is no load-balancing. If you need load-balancing, you can either upgreate to the Commercial License edition or use [Architect Server](https://www.openanalytics.eu/products) from [OpenAnalytics](https://www.openanalytics.eu/). 
+This image is based on [bigboards/docker-rstudio-server](https://github.com/bigboards/docker-rstudio-server "bigboards/docker-rstudio-server") originally developed by Koen Rutten for workshops using [Rstudio Server](https://www.rstudio.com/products/rstudio/#Server) as X instances on [Bigboard](www.bigboards.io). It currently uses the Rstudio Server open-source edition so there is no load-balancing. If you need load-balancing, you can either upgreate to the Commercial License edition or use [Architect Server](https://www.openanalytics.eu/products) from [OpenAnalytics](https://www.openanalytics.eu/). 
 
 ## Files Description
 
 ### Dockerfile
+
+#### Step 1 : Load Pre-Existing Image
+Tells Docker which image your image is based on with the "FROM" keyword. In our case, we'll use the bigboards base image java-8-x86_64 as the foundation to build our app. 
+
+```sh
+FROM bigboards/java-8-x86_64
+```
+
+
 
 ### build_logins.sh
 
@@ -28,6 +37,10 @@ This image is based on [bigboards/docker-rstudio-server](https://github.com/bigb
 
 
 **[Back to top](#table-of-contents)**
+
+## Limitations
+
+This is where you list OS compatibility, version compatibility, etc. If there are Known Issues, you might want to include them under their own heading here.
 
 ## License
 
