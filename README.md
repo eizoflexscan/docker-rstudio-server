@@ -1,16 +1,6 @@
 # docker-rstudio-server
 ===============================
 
-## Table of Contents
-1. [Overview](#overview)
-2. [Files Description](#files)
-	1. [Dockerfile](#docker)
-	2. [build_logins.sh file](#config1)
-	3. [run.sh file](#config2)
-3. [Limitations](#limitations)
-
-
-
 ## Overview 
 
 This repository contains the necessary files for setting up a  [Rstudio Server](https://www.rstudio.com/products/rstudio/#Server) containerized application up and running on a [Bigboard](www.bigboards.io).
