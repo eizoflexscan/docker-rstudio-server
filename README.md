@@ -1,6 +1,6 @@
 # docker-rstudio-server
 
-This image is based on [bigboards/docker-rstudio-server](https://github.com/bigboards/docker-rstudio-server "bigboards/docker-rstudio-server") originally developed by KoenR3 for workshops using RStudio as X instances on [Bigboard](www.bigboards.io). It currently uses the Rstudio Server community edition so there is no load-balancing. 
+This image is based on [bigboards/docker-rstudio-server](https://github.com/bigboards/docker-rstudio-server "bigboards/docker-rstudio-server") originally developed by KoenR3 for workshops using [Rstudio Server](https://www.rstudio.com/products/rstudio/#Server) as X instances on [Bigboard](www.bigboards.io). It currently uses the Rstudio Server community edition so there is no load-balancing. 
 
 
 
