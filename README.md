@@ -37,9 +37,6 @@ The ENV command is used to set the environment variables. These variables consis
 ## General ENV
 ENV R_BASE_VERSION 3.3.1
 ENV RSTUDIO_SERVER_VERSION 0.99.1251
-
-## Password rstudio
-ENV PASSWORD rstudio
 ```
 
 ### Step 3 : Install dependencies
@@ -58,26 +55,24 @@ RUN set -e \
 #### Step 4: Install latest R Base
 A full description of R installation processes can be found at the following [link](https://cran.rstudio.com/bin/linux/ubuntu/README.html). 
 
-	```sh   
-	RUN set -e \
-    	&& codename=$(lsb_release -c -s) && \	
-        && echo "deb http://freestatistics.org/cran/bin/linux/ubuntu $codename/" | tee -a /etc/apt/sources.list > /dev/null \
-        && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9 \
-        && apt-get -y update \
-		&& apt-get install -y r-base r-base-dev \
-		&& apt-get clean
-	```
+```sh   
+RUN set -e \
+&& codename=$(lsb_release -c -s) && \	
+&& echo "deb http://freestatistics.org/cran/bin/linux/ubuntu $codename/" | tee -a /etc/apt/sources.list > /dev/null \
+&& apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9 \
+&& apt-get -y update \
+&& apt-get install -y r-base r-base-dev \
+&& apt-get clean
+```
 	
 
-*  Obtain the latest R packages (line 1). Add an entry with URL of your favorite CRAN mirror (See https://cran.r-project.org/mirrors.html for the list of CRAN mirrors) and choose your Ubuntu operating
-system (Xenial 16.04, Trusty 14.04 or Precise 12.04) 
-*  Use strong crypto to validate downloaded packages (line 2). The Ubuntu archives on CRAN are signed with the key of “Michael Rutter marutter@gmail.com” with key ID E084DAB9. To add the key to your system with one command use
-<sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9> 
-*  Install the complete R system (line 3-4), use <sudo apt-get install r-base>
-*  Install the r-base-dev package (line 5). Users who need to instal packages with "install.packages()" should also install the r-base-dev package 
+*  Obtain the latest R packages (line 1-2). Add an entry with URL of your favorite CRAN mirror (See https://cran.r-project.org/mirrors.html for the list of CRAN mirrors) 
+*  Use crypto to validate downloaded packages (line 3). The Ubuntu archives on CRAN are signed with the key of “Michael Rutter marutter@gmail.com” with key ID E084DAB9. 
+*  Install the complete R system (line 4-6), including r-base-dev package to allow users to instal additional packages with "install.packages()".
 
 
-Note that if you do not want to install the lastest version of R, you should remove the first line and replace the second line with && echo 'deb https://cloud.r-project.org/bin/linux/ubuntu xenial/' >> /etc/apt/sources.list \
+Note that if you do not want to install the lastest version of R, you should remove the first line and replace the second line with "&& echo 'deb https://cloud.r-project.org/bin/linux/ubuntu trusty/' >> /etc/apt/sources.list"
+and choose your Ubuntu operating system (Xenial 16.04, Trusty 14.04 or Precise 12.04). 
 
 ###Step 4: Install R version
 
