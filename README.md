@@ -52,7 +52,7 @@ RUN set -e \
     libcurl4-openssl-dev 
 ```
 
-#### Step 4: Install latest R Base
+### Step 4: Install latest R Base
 A full description of R installation processes can be found at the following [link](https://cran.rstudio.com/bin/linux/ubuntu/README.html). 
 
 ```sh   
@@ -72,9 +72,18 @@ RUN set -e \
 Note that if you do not want to install the lastest version of R, you should remove the first line and replace the second line with "&& echo 'deb https://cloud.r-project.org/bin/linux/ubuntu trusty/' >> /etc/apt/sources.list"
 and choose your Ubuntu operating system (Xenial 16.04, Trusty 14.04 or Precise 12.04). 
 
-###Step 4: Install R version
 
-#### Step 4.1: Install R 
+
+####Step 5: Install R Package 
+You’ll also need to install the Shiny R package before installing Shiny Server:
+
+```sh
+RUN R -e 'install.packages(c('devtools','shiny',  'rmarkdown', 'SparkR'), repos="http://cran.freestatistics.org/")' \
+	&& R -e 'update.packages(ask=FALSE,repos="http://cran.freestatistics.org/")'
+```
+
+
+### Step 4.1: Install R 
 This is unrequired. It's simple to fix a bug
 
 	```sh
@@ -90,13 +99,6 @@ This is unrequired. It's simple to fix a bug
 
 	
 
-
-
-####Step 4.3: Install R Package 
-You’ll also need to install the Shiny R package before installing Shiny Server:
-	```sh
-	RUN R -e "install.packages(c('shiny','ggplot2','tidyr','knitr', 'rmarkdown', 'SparkR'), repos='https://cran.rstudio.com/')"
-	```
 
 
 
