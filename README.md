@@ -129,7 +129,7 @@ Remove the R package list to reduce image size. This is done as the last thing o
 
 ```
 RUN apt-get clean \
-	\\&\\& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+	\&\& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 ```
 
 ### Step 10: Add shell script with startup commands
@@ -152,18 +152,16 @@ CMD ["./init/run.sh"]
 
 
 
-
-
-
 ### build_logins.sh
+The ADD command gets two arguments: a source and a destination. It basically copies the configuration file `build_logins.sh` from the source on the host into the container's own filesystem at the set destination to specify users and passwords. 
 
 ### run.sh
+default command that gets executed (i.e. run) with the creation of containers based on the image to start RStudio Server.
 
-
-**[Back to top](#table-of-contents)**
 
 ## Limitations
 
 It currently uses the Rstudio Server open-source edition so there is no load-balancing. If you need load-balancing, you can either upgrade to the Commercial License edition or use [Architect Server](https://www.openanalytics.eu/products) from [OpenAnalytics](https://www.openanalytics.eu/). 
 
 
+**[Back to top](#table-of-contents)**
