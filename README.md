@@ -14,7 +14,8 @@ This has proven useful,
 * if you need to run your analysis on a high-end server rather than your laptop
 * if you want all your team members to work on the same R installation
 
-This image was originally developed by Koen Rutten for workshops using [Rstudio Server](https://www.rstudio.com/products/rstudio/#Server) as X instances on [Bigboard](www.bigboards.io). It currently uses the Rstudio Server open-source edition so there is no load-balancing. If you need load-balancing, you can either upgrade to the Commercial License edition or use [Architect Server](https://www.openanalytics.eu/products) from [OpenAnalytics](https://www.openanalytics.eu/). 
+This image was originally developed by Koen Rutten for workshops using [Rstudio Server](https://www.rstudio.com/products/rstudio/#Server) as X instances on [Bigboard](www.bigboards.io).
+But it can also be combined with Hadoop, Sark and Shiny to get a full R Stack.  
 
 ## Files Description
 
@@ -148,7 +149,7 @@ password: rstudio
 
 ## Limitations
 
-This is where you list OS compatibility, version compatibility, etc. If there are Known Issues, you might want to include them under their own heading here.
+It currently uses the Rstudio Server open-source edition so there is no load-balancing. If you need load-balancing, you can either upgrade to the Commercial License edition or use [Architect Server](https://www.openanalytics.eu/products) from [OpenAnalytics](https://www.openanalytics.eu/). 
 
 ## License
 
