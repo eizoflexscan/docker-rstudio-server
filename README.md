@@ -5,6 +5,11 @@
 
 # Overview
 # Files Description
+	## Dockerfile
+    ## build_logins.sh file
+    ## run.sh file
+
+
 
 ## Overview
 
@@ -154,10 +159,10 @@ CMD ["./init/run.sh"]
 
 
 
-### build_logins.sh
+### build_logins.sh file
 A configuration file to specify users and passwords. It creates 50 users named (datafriend1, datafriend2,..., datafriend50) and 50 passwords that are the same as the user names (datafriend1, datafriend2,..., datafriend50).
 
-### run.sh
+### run.sh file
 Start RStudio Server directly after the container creation has been finished. 
 
 
