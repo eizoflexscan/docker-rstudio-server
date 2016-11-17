@@ -133,11 +133,13 @@ RUN apt-get clean && \
 ```
 
 ### Step 10: Add shell script with startup commands
+Add a script to start RStudio Server. 
 ```sh
 ADD run.sh /init/run.sh
 ```
 
 ### Step 11:Expose the RStudio Server port
+Associate the 8787 specified port to enable networking between the running process inside the container and the outside world (i.e. the host).
 ```
 EXPOSE 8787
 ```
