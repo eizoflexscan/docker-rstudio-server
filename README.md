@@ -128,8 +128,8 @@ RUN chmod +x /tmp/build_logins.sh && \
 Remove the R package list to reduce image size. This is done as the last thing of the build process, instead within step 4,  as installs can fail due to this!
 
 ```
-RUN apt-get clean && \
-	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN apt-get clean \
+	\\&\\& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 ```
 
 ### Step 10: Add shell script with startup commands
