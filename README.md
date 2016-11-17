@@ -1,4 +1,4 @@
-# docker-rstudio-server
+docker-rstudio-server
 ------------------
 
 #table-of-contents
@@ -8,10 +8,10 @@
 	## Dockerfile
     ## build_logins.sh file
     ## run.sh file
+# Limitations
 
 
-
-## Overview
+# Overview
 
 This repository contains the necessary files for setting up a  [Rstudio Server](https://www.rstudio.com/products/rstudio/#Server) containerized application up and running on a [Bigboard](www.bigboards.io).
 
@@ -25,11 +25,11 @@ This image was originally developed by Koen Rutten for workshops using [Rstudio 
 But it can also be combined with Hadoop, Spark and Shiny to get a full R Stack (see [R on Spark on Yarn](http://hive.bigboards.io/#/library/stack/google-oauth2-113490423275171641798/cm-r-stack) for details).  
 
 
-## Files Description
+# Files Description
 
-### Dockerfile
+## Dockerfile
 
-#### Step 1 : Load pre-existing image
+### Step 1 : Load pre-existing image
 Tells Docker which image your image is based on with the "FROM" keyword. In our case, we'll use the Bigboards base image bigboards/base-__arch__ as the foundation to build our app. 
 
 ```sh
@@ -159,14 +159,14 @@ CMD ["./init/run.sh"]
 
 
 
-### build_logins.sh file
+## build_logins.sh file
 A configuration file to specify users and passwords. It creates 50 users named (datafriend1, datafriend2,..., datafriend50) and 50 passwords that are the same as the user names (datafriend1, datafriend2,..., datafriend50).
 
-### run.sh file
+## run.sh file
 Start RStudio Server directly after the container creation has been finished. 
 
 
-## Limitations
+# Limitations
 
 It currently uses the Rstudio Server open-source edition so there is no load-balancing. If you need load-balancing, you can either upgrade to the Commercial License edition or use [Architect Server](https://www.openanalytics.eu/products) from [OpenAnalytics](https://www.openanalytics.eu/). 
 
