@@ -113,26 +113,36 @@ ENV LANG en_US.UTF-8
 
 
 ### Add users for RStudio, the sleep is added because older versions of docker have an issue with chmod
+```sh
 ADD build_logins.sh /tmp/build_logins.sh
 RUN chmod +x /tmp/build_logins.sh && \
 	sleep 1 && \
  	./tmp/build_logins.sh 4 && \
  	rm /tmp/build_logins.sh
+```
 
 ### Remove the package list to reduce image size. Note: do this as the last thing of the build process as installs can fail due to this!
 # Additional cleanup
+
+```
 RUN apt-get clean && \
 	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+```
 
 ### Add shell script with startup commands
+```sh
 ADD run.sh /init/run.sh
+```
 
 ### Expose the RStudio Server port
+```
 EXPOSE 8787
+```
 
 ###  Start RStudio Server 
+```sh
 CMD ["./init/run.sh"]
-
+```
 
 
 
