@@ -22,8 +22,8 @@ But it can also be combined with Hadoop, Spark and Shiny to get a full R Stack (
 
 ### Dockerfile
 
-#### Step 1 : Load Pre-Existing Image
-Tells Docker which image your image is based on with the "FROM" keyword. In our case, we'll use the bigboards base image bigboards/base-__arch__ as the foundation to build our app. 
+#### Step 1 : Load pre-existing image
+Tells Docker which image your image is based on with the "FROM" keyword. In our case, we'll use the Bigboards base image bigboards/base-__arch__ as the foundation to build our app. 
 
 ```sh
 FROM bigboards/base-__arch__
@@ -69,19 +69,24 @@ RUN set -e \
 *  Install the complete R system (line 4-6), including r-base-dev package to allow users to instal additional packages with "install.packages()".
 
 
-Note that if you do not want to install the lastest version of R, you should remove the first line and replace the second line with "&& echo 'deb https://cloud.r-project.org/bin/linux/ubuntu trusty/' >> /etc/apt/sources.list"
+Note that if you do not want to install the lastest version of R, you should remove the first line and replace the second line with `&& echo 'deb https://cloud.r-project.org/bin/linux/ubuntu trusty/' >> /etc/apt/sources.list`
 and choose your Ubuntu operating system (Xenial 16.04, Trusty 14.04 or Precise 12.04). 
 
 
 
 ####Step 5: Install R Package 
-You’ll also need to install the Shiny R package before installing Shiny Server:
+
+Install as many R packages as you want by completing the list. But if you want to install Shiny Server later on, you must add `shiny` to the list before installing Shiny Server.
 
 ```sh
 RUN R -e 'install.packages(c('devtools','shiny',  'rmarkdown', 'SparkR'), repos="http://cran.freestatistics.org/")' \
-	&& R -e 'update.packages(ask=FALSE,repos="http://cran.freestatistics.org/")'
+	&& R -e 'library("devtools"); install_github("mbojan/alluvial")' \
+    && R -e 'update.packages(ask=FALSE,repos="http://cran.freestatistics.org/")'
 ```
 
+* Install R packages from a list available on CRAN (line 1),
+* Install R packages from a list available on Github (line 2),
+* Avoid to ask if packages required to be updated (line 3).
 
 ### Step 4.1: Install R 
 This is unrequired. It's simple to fix a bug
