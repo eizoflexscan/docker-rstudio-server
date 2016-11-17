@@ -57,15 +57,13 @@ A full description of R installation processes can be found at the following [li
 
 ```sh   
 RUN set -e \
-&& codename=$(lsb_release -c -s) && \	
+&& codename=$(lsb_release -c -s) \	
 && echo "deb http://freestatistics.org/cran/bin/linux/ubuntu $codename/" | tee -a /etc/apt/sources.list > /dev/null \
 && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9 \
 && apt-get -y update \
 && apt-get install -y r-base r-base-dev \
 && apt-get clean
 ```
-	
-
 *  Obtain the latest R packages (line 1-2). Add an entry with URL of your favorite CRAN mirror (See https://cran.r-project.org/mirrors.html for the list of CRAN mirrors) 
 *  Use crypto to validate downloaded packages (line 3). The Ubuntu archives on CRAN are signed with the key of “Michael Rutter marutter@gmail.com” with key ID E084DAB9. 
 *  Install the complete R system (line 4-6), including r-base-dev package to allow users to instal additional packages with "install.packages()".
