@@ -61,8 +61,7 @@ RUN set -e \
 && echo "deb http://freestatistics.org/cran/bin/linux/ubuntu $codename/" | tee -a /etc/apt/sources.list > /dev/null \
 && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9 \
 && apt-get -y update \
-&& apt-get install -y r-base r-base-dev \
-&& apt-get clean
+&& apt-get install -y r-base r-base-dev
 ```
 *  Obtain the latest R packages (line 1-2). Add an entry with URL of your favorite CRAN mirror (See https://cran.r-project.org/mirrors.html for the list of CRAN mirrors) 
 *  Use crypto to validate downloaded packages (line 3). The Ubuntu archives on CRAN are signed with the key of “Michael Rutter marutter@gmail.com” with key ID E084DAB9. 
@@ -112,7 +111,11 @@ ENV LANG en_US.UTF-8
 ```
 
 
-### Add users for RStudio, the sleep is added because older versions of docker have an issue with chmod
+### Step 8: Add users for RStudio
+The ADD command gets two arguments: a source and a destination. It basically copies the configuration file `build_logins.sh` from the source on the host into the container's own filesystem at the set destination to specify users and passwords. 
+
+Note that the sleep is only added because older versions of docker have an issue with chmod.
+
 ```sh
 ADD build_logins.sh /tmp/build_logins.sh
 RUN chmod +x /tmp/build_logins.sh && \
@@ -121,8 +124,8 @@ RUN chmod +x /tmp/build_logins.sh && \
  	rm /tmp/build_logins.sh
 ```
 
-### Remove the package list to reduce image size. Note: do this as the last thing of the build process as installs can fail due to this!
-# Additional cleanup
+### Step 9: Reduce image size  
+Remove the R package list to reduce image size. This is done as the last thing of the build process, instead within step 4,  as installs can fail due to this!
 
 ```
 RUN apt-get clean && \
