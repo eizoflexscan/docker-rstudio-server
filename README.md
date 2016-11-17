@@ -90,11 +90,7 @@ RUN R -e 'install.packages(c('devtools','shiny',  'rmarkdown', 'SparkR'), repos=
 
 
 ### Step 6: Download and install RStudio Server Open Source edition
-A full description of Rstudio installation processes can be found at the following [link](https://cran.rstudio.com/bin/linux/ubuntu/README.html). Instead of using the default value for usernames and passwords, they will be defined later on in the configuration file `build_logins.sh`
-
-Default value:
-username: rstudio
-password: rstudio
+A full description of Rstudio installation processes can be found at the following [link](https://cran.rstudio.com/bin/linux/ubuntu/README.html). Instead of using the default value for usernames and passwords, they will be defined later on in the configuration file `build_logins.sh`.
 
 ```
 RUN wget -O /tmp/rstudio.deb http://download2.rstudio.org/rstudio-server-0.99.902-amd64.deb && \
@@ -102,37 +98,40 @@ RUN wget -O /tmp/rstudio.deb http://download2.rstudio.org/rstudio-server-0.99.90
     rm /tmp/rstudio.deb
 ```    
 
-Default value:
-username: rstudio
-password: rstudio
+
+### Step 7: Configure default locale
+It might be interesting to avoid confusion to configure default local, see [comments](https://github.com/rocker-org/rocker/issues/19).
+
+```sh
+RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && \
+	locale-gen en_US.utf8 && \
+	/usr/sbin/update-locale LANG=en_US.UTF-8
+
+ENV LC_ALL en_US.UTF-8
+ENV LANG en_US.UTF-8
+```
 
 
-	# Set the username and password default value to "rstudio"	  
-	RUN set -e \
-		  && useradd -m -d /home/rstudio rstudio \
-		  && echo rstudio:rstudio \
-			| chpasswd
-	```
+### Add users for RStudio, the sleep is added because older versions of docker have an issue with chmod
+ADD build_logins.sh /tmp/build_logins.sh
+RUN chmod +x /tmp/build_logins.sh && \
+	sleep 1 && \
+ 	./tmp/build_logins.sh 4 && \
+ 	rm /tmp/build_logins.sh
 
+### Remove the package list to reduce image size. Note: do this as the last thing of the build process as installs can fail due to this!
+# Additional cleanup
+RUN apt-get clean && \
+	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+### Add shell script with startup commands
+ADD run.sh /init/run.sh
 
+### Expose the RStudio Server port
+EXPOSE 8787
 
-
-### Step 4.1: Install R 
-This is unrequired. It's simple to fix a bug
-
-	```sh
-	## From  rocker/r-base
-	## Configure default locale, see https://github.com/rocker-org/rocker/issues/19
-	RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
-	  && locale-gen en_US.utf8 \
-	  && /usr/sbin/update-locale LANG=en_US.UTF-8
-
-	ENV LC_ALL en_US.UTF-8
-	ENV LANG en_US.UTF-8
-	```
-
-	
+###  Start RStudio Server 
+CMD ["./init/run.sh"]
 
 
 
