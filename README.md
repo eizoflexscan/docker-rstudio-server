@@ -13,10 +13,8 @@ Rstudio is an integrated development environment (IDE) targeted specifically at 
 This has proven useful
 * if you need to run your analysis on a high-end server rather than your laptop
 * if you want all your team members to work on the same R installation
-* when connecting to R on a cloud instance
 
-
-This image is based on [bigboards/docker-rstudio-server](https://github.com/bigboards/docker-rstudio-server "bigboards/docker-rstudio-server") originally developed by Koen Rutten for workshops using [Rstudio Server](https://www.rstudio.com/products/rstudio/#Server) as X instances on [Bigboard](www.bigboards.io). It currently uses the Rstudio Server open-source edition so there is no load-balancing. If you need load-balancing, you can either upgrade to the Commercial License edition or use [Architect Server](https://www.openanalytics.eu/products) from [OpenAnalytics](https://www.openanalytics.eu/). 
+This image was originally developed by Koen Rutten for workshops using [Rstudio Server](https://www.rstudio.com/products/rstudio/#Server) as X instances on [Bigboard](www.bigboards.io). It currently uses the Rstudio Server open-source edition so there is no load-balancing. If you need load-balancing, you can either upgrade to the Commercial License edition or use [Architect Server](https://www.openanalytics.eu/products) from [OpenAnalytics](https://www.openanalytics.eu/). 
 
 ## Files Description
 
@@ -43,7 +41,7 @@ ENV PASSWORD rstudio
 ```
 
 ### Step 3 : Install dependencies
-Don't know what I'm doing. Many R packages have dependencies external to R that need to be installed.
+Install dependencies external to R and Rstudio,
 ```sh
 RUN set -e \
   && apt-get -y update \
@@ -75,6 +73,14 @@ This is unrequired. It's simple to fix a bug
 #### Step 4.2: Install R 
 To install the latest version of R you should first add the CRAN repository to your system as described here:
 	```sh
+    RUN codename=$(lsb_release -c -s) && \
+	echo "deb http://freestatistics.org/cran/bin/linux/ubuntu $codename/" | tee -a /etc/apt/sources.list > /dev/null 		&& \
+	apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9 && \
+	apt-get update \
+    && apt-get install -y r-base r-base-dev
+
+    
+    
 	## From https://cran.rstudio.com/bin/linux/ubuntu/README.html
 	RUN set -e \
 		  && echo 'deb https://cloud.r-project.org/bin/linux/ubuntu xenial/' >> /etc/apt/sources.list \
