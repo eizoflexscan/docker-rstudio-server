@@ -132,17 +132,17 @@ RUN apt-get clean && \
 	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 ```
 
-### Add shell script with startup commands
+### Step 10: Add shell script with startup commands
 ```sh
 ADD run.sh /init/run.sh
 ```
 
-### Expose the RStudio Server port
+### Step 11:Expose the RStudio Server port
 ```
 EXPOSE 8787
 ```
 
-###  Start RStudio Server 
+###  Step 12: Start RStudio Server 
 ```sh
 CMD ["./init/run.sh"]
 ```
