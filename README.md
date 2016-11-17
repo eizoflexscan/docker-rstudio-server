@@ -1,17 +1,24 @@
 # docker-rstudio-server
-------------------
+===============================
 
-# table-of-contents
+# Table of Contents
+1. [Overview](#overview)
+2. [Files Description](#files)
+	# Dockerfile
+    # build_logins.sh file
+    # run.sh file
+3. [Limitations](#limitations)
 
-# Overview
-# Files Description
+
+## Overview
+## 
 	## Dockerfile
     ## build_logins.sh file
     ## run.sh file
-# Limitations
+## 
 
 
-# Overview
+## Overview
 
 This repository contains the necessary files for setting up a  [Rstudio Server](https://www.rstudio.com/products/rstudio/#Server) containerized application up and running on a [Bigboard](www.bigboards.io).
 
@@ -25,11 +32,11 @@ This image was originally developed by Koen Rutten for workshops using [Rstudio 
 But it can also be combined with Hadoop, Spark and Shiny to get a full R Stack (see [R on Spark on Yarn](http://hive.bigboards.io/#/library/stack/google-oauth2-113490423275171641798/cm-r-stack) for details).  
 
 
-# Files Description
+## Files Description
 
-## Dockerfile
+### Dockerfile
 
-### Step 1 : Load pre-existing image
+#### Step 1 : Load pre-existing image
 Tells Docker which image your image is based on with the "FROM" keyword. In our case, we'll use the Bigboards base image bigboards/base-__arch__ as the foundation to build our app. 
 
 ```sh
@@ -37,7 +44,7 @@ FROM bigboards/base-__arch__
 ```
 
 
-### Step 2 : Set environment variables
+#### Step 2 : Set environment variables
 The ENV command is used to set the environment variables. These variables consist of “key = value” pairs which can be accessed within the container by scripts and applications alike. If you want don't need to control the R version for your application or if you always want to work with the lastest version, you should remove these lines. 
 
 ```sh
@@ -46,7 +53,7 @@ ENV R_BASE_VERSION 3.3.1
 ENV RSTUDIO_SERVER_VERSION 0.99.1251
 ```
 
-### Step 3 : Install dependencies
+#### Step 3 : Install dependencies
 Install dependencies external to R and Rstudio,
 ```sh
 RUN set -e \
@@ -59,7 +66,7 @@ RUN set -e \
     libcurl4-openssl-dev 
 ```
 
-### Step 4: Download and Install R Base
+#### Step 4: Download and Install R Base
 A full description of R installation processes can be found at the following [link](https://cran.rstudio.com/bin/linux/ubuntu/README.html). 
 
 ```sh   
@@ -80,7 +87,7 @@ and choose your Ubuntu operating system (Xenial 16.04, Trusty 14.04 or Precise 1
 
 
 
-### Step 5: Download and install R Packages 
+#### Step 5: Download and install R Packages 
 
 Install as many R packages as you want by completing the list. But if you want to install Shiny Server later on, you must add `shiny` to the list before installing Shiny Server.
 
@@ -95,7 +102,7 @@ RUN R -e 'install.packages(c('devtools','shiny',  'rmarkdown', 'SparkR'), repos=
 * Avoid to ask if packages required to be updated (line 3).
 
 
-### Step 6: Download and install RStudio Server Open Source edition
+#### Step 6: Download and install RStudio Server Open Source edition
 A full description of Rstudio installation processes can be found at the following [link](https://cran.rstudio.com/bin/linux/ubuntu/README.html). Instead of using the default value for usernames and passwords, they will be defined later on in the configuration file `build_logins.sh`.
 
 ```
@@ -105,7 +112,7 @@ RUN wget -O /tmp/rstudio.deb http://download2.rstudio.org/rstudio-server-0.99.90
 ```    
 
 
-### Step 7: Configure default locale
+#### Step 7: Configure default locale
 It might be interesting to avoid confusion to configure default local, see [comments](https://github.com/rocker-org/rocker/issues/19).
 
 ```sh
@@ -118,7 +125,7 @@ ENV LANG en_US.UTF-8
 ```
 
 
-### Step 8: Define users and passwords for RStudio
+#### Step 8: Define users and passwords for RStudio
 The ADD command gets two arguments: a source and a destination. It basically copies the configuration file `build_logins.sh` from the source on the host into the container's own filesystem at the set destination to specify users and passwords. 
 
 Note that the sleep is only added because older versions of docker have an issue with chmod.
@@ -131,7 +138,7 @@ RUN chmod +x /tmp/build_logins.sh && \
  	rm /tmp/build_logins.sh
 ```
 
-### Step 9: Reduce image size  
+#### Step 9: Reduce image size  
 Remove the R package list to reduce image size. This is done as the last thing of the build process, instead within step 4,  as installs can fail due to this!
 
 ```
@@ -139,19 +146,19 @@ RUN apt-get clean \
 	&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 ```
 
-### Step 10: Add shell script with startup commands
+#### Step 10: Add shell script with startup commands
 Add a script to start RStudio Server. 
 ```sh
 ADD run.sh /init/run.sh
 ```
 
-### Step 11:Expose the RStudio Server port
+#### Step 11:Expose the RStudio Server port
 Associate the 8787 specified port to enable networking between the running process inside the container and the outside world (i.e. the host).
 ```
 EXPOSE 8787
 ```
 
-###  Step 12: Start RStudio Server 
+####  Step 12: Start RStudio Server 
 The command CMD, similarly to RUN, can be used for executing a specific command. However, unlike RUN it is not executed during build, but when a container is instantiated using the image being built. Therefore, it should be considered as an initial, default command that gets executed (i.e. run) with the creation of containers based on the image to start RStudio Server.
 ```sh
 CMD ["./init/run.sh"]
@@ -159,14 +166,14 @@ CMD ["./init/run.sh"]
 
 
 
-## build_logins.sh file
+### build_logins.sh file
 A configuration file to specify users and passwords. It creates 50 users named (datafriend1, datafriend2,..., datafriend50) and 50 passwords that are the same as the user names (datafriend1, datafriend2,..., datafriend50).
 
-## run.sh file
+### run.sh file
 Start RStudio Server directly after the container creation has been finished. 
 
 
-# Limitations
+## Limitations
 
 It currently uses the Rstudio Server open-source edition so there is no load-balancing. If you need load-balancing, you can either upgrade to the Commercial License edition or use [Architect Server](https://www.openanalytics.eu/products) from [OpenAnalytics](https://www.openanalytics.eu/). 
 
