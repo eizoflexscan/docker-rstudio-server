@@ -55,9 +55,7 @@ RUN set -e \
     libcurl4-openssl-dev 
 ```
 
-
-
-###Step 4: Install R latest version
+###Step 4: Install R version
 
 #### Step 4.1: Install R 
 This is unrequired. It's simple to fix a bug
