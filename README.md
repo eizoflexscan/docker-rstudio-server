@@ -52,7 +52,7 @@ RUN set -e \
     libcurl4-openssl-dev 
 ```
 
-### Step 4: Install latest R Base
+### Step 4: Download and Install R Base
 A full description of R installation processes can be found at the following [link](https://cran.rstudio.com/bin/linux/ubuntu/README.html). 
 
 ```sh   
@@ -74,7 +74,7 @@ and choose your Ubuntu operating system (Xenial 16.04, Trusty 14.04 or Precise 1
 
 
 
-####Step 5: Install R Package 
+### Step 5: Download and install R Packages 
 
 Install as many R packages as you want by completing the list. But if you want to install Shiny Server later on, you must add `shiny` to the list before installing Shiny Server.
 
@@ -87,6 +87,36 @@ RUN R -e 'install.packages(c('devtools','shiny',  'rmarkdown', 'SparkR'), repos=
 * Install R packages from a list available on CRAN (line 1),
 * Install R packages from a list available on Github (line 2),
 * Avoid to ask if packages required to be updated (line 3).
+
+
+### Step 6: Download and install RStudio Server Open Source edition
+A full description of Rstudio installation processes can be found at the following [link](https://cran.rstudio.com/bin/linux/ubuntu/README.html). Instead of using the default value for usernames and passwords, they will be defined later on in the configuration file `build_logins.sh`
+
+Default value:
+username: rstudio
+password: rstudio
+
+```
+RUN wget -O /tmp/rstudio.deb http://download2.rstudio.org/rstudio-server-0.99.902-amd64.deb && \
+    gdebi -n /tmp/rstudio.deb && \
+    rm /tmp/rstudio.deb
+```    
+
+Default value:
+username: rstudio
+password: rstudio
+
+
+	# Set the username and password default value to "rstudio"	  
+	RUN set -e \
+		  && useradd -m -d /home/rstudio rstudio \
+		  && echo rstudio:rstudio \
+			| chpasswd
+	```
+
+
+
+
 
 ### Step 4.1: Install R 
 This is unrequired. It's simple to fix a bug
@@ -107,33 +137,6 @@ This is unrequired. It's simple to fix a bug
 
 
 
-
-###Step 5: Download and  Install Rstudio Server 
-See the link https://cran.rstudio.com/bin/linux/ubuntu/README.html on the Rstudio webpage for details.  
-
-Default value:
-
-username: rstudio
-password: rstudio
-
-	```sh
-	# Download and Install R studio Server 
-	RUN set -e \
-		  && curl https://s3.amazonaws.com/rstudio-server/current.ver \
-			| xargs -I {} curl http://download2.rstudio.org/rstudio-server-{}-amd64.deb -o rstudio.deb \
-		  && gdebi -n rstudio.deb \
-		  && rm rstudio.deb
-
-	# Set the username and password default value to "rstudio"	  
-	RUN set -e \
-		  && useradd -m -d /home/rstudio rstudio \
-		  && echo rstudio:rstudio \
-			| chpasswd
-			
-	EXPOSE 8787
-
-	CMD ["/usr/lib/rstudio-server/bin/rserver", "--server-daemonize=0", "--server-app-armor-enabled=0"]	
-	```
 
 
 
