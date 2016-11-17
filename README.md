@@ -10,15 +10,8 @@
 3. [Limitations](#limitations)
 
 
-## Overview
-## 
-	## Dockerfile
-    ## build_logins.sh file
-    ## run.sh file
-## 
 
-
-## Overview
+## Overview <a name="overview"></a>
 
 This repository contains the necessary files for setting up a  [Rstudio Server](https://www.rstudio.com/products/rstudio/#Server) containerized application up and running on a [Bigboard](www.bigboards.io).
 
@@ -32,7 +25,7 @@ This image was originally developed by Koen Rutten for workshops using [Rstudio 
 But it can also be combined with Hadoop, Spark and Shiny to get a full R Stack (see [R on Spark on Yarn](http://hive.bigboards.io/#/library/stack/google-oauth2-113490423275171641798/cm-r-stack) for details).  
 
 
-## Files Description
+## Files Description <a name="files"></a>
 
 ### Dockerfile
 
