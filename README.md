@@ -158,7 +158,7 @@ CMD ["./init/run.sh"]
 A configuration file to specify users and passwords. It creates 50 users named (datafriend1, datafriend2,..., datafriend50) and 50 passwords that are the same as the user names (datafriend1, datafriend2,..., datafriend50).
 
 ### run.sh
-Start RStudio Server at the end of the container creation. 
+Start RStudio Server directly after the container creation has been finished. 
 
 
 ## Limitations
