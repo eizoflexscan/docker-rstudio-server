@@ -56,7 +56,7 @@ RUN set -e \
 ```
 
 #### Step 4: Install latest R Base
-A full description of R installation processes can be found at the following [link](https://cran.rstudio.com/bin/linux/ubuntu/README.html).
+A full description of R installation processes can be found at the following [link](https://cran.rstudio.com/bin/linux/ubuntu/README.html). 
 
 	```sh   
 	RUN set -e \
@@ -69,13 +69,15 @@ A full description of R installation processes can be found at the following [li
 	```
 	
 
-	*  Obtain the latest R packages (line 1). Add an entry with URL of your favorite CRAN mirror (See https://cran.r-project.org/mirrors.html for the list of CRAN mirrors) and choose your Ubuntu operating
-	system (Xenial 16.04, Trusty 14.04 or Precise 12.04) 
-	*  Use strong crypto to validate downloaded packages (line 2). The Ubuntu archives on CRAN are signed with the key of “Michael Rutter marutter@gmail.com” with key ID E084DAB9. To add the key to your system with one command use
-	<sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9> 
-	*  Install the complete R system (line 3-4), use <sudo apt-get install r-base>
-	*  Install the r-base-dev package (line 5). Users who need to instal packages with "install.packages()" should also install the r-base-dev package 
+*  Obtain the latest R packages (line 1). Add an entry with URL of your favorite CRAN mirror (See https://cran.r-project.org/mirrors.html for the list of CRAN mirrors) and choose your Ubuntu operating
+system (Xenial 16.04, Trusty 14.04 or Precise 12.04) 
+*  Use strong crypto to validate downloaded packages (line 2). The Ubuntu archives on CRAN are signed with the key of “Michael Rutter marutter@gmail.com” with key ID E084DAB9. To add the key to your system with one command use
+<sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9> 
+*  Install the complete R system (line 3-4), use <sudo apt-get install r-base>
+*  Install the r-base-dev package (line 5). Users who need to instal packages with "install.packages()" should also install the r-base-dev package 
 
+
+Note that if you do not want to install the lastest version of R, you should remove the first line and replace the second line with && echo 'deb https://cloud.r-project.org/bin/linux/ubuntu xenial/' >> /etc/apt/sources.list \
 
 ###Step 4: Install R version
 
