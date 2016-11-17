@@ -42,39 +42,17 @@ ENV RSTUDIO_SERVER_VERSION 0.99.1251
 ENV PASSWORD rstudio
 ```
 
-
-### Step 3 : Install Rstudio server dependencies
+### Step 3 : Install dependencies
 Don't know what I'm doing. Many R packages have dependencies external to R that need to be installed.
 ```sh
 RUN set -e \
   && apt-get -y update \
   && apt-get -y upgrade \
   && apt-get -y install \
-		apt-transport-https \
-		ca-certificates \
-		gdebi-core \
-		git \
-		libapparmor1 \
-		libedit2 \
-		libcairo2-dev \
-		libcurl4-openssl-dev \
-		libssl1.0.0 \
-		libssl-dev \
-		libssh2-1-dev \
-		libxml2-dev \
-		libxt-dev \
-		lsb-release \
-		nano \
-		psmisc \
-		python-setuptools \
-		openssh-client \
-		oracle-java8-installer \
-		software-properties-common \
-		sudo \
-		supervisor \
-		pandoc \
-		pandoc-citeproc \
-		wget
+  	gdebi-core \ 
+    libapparmor1 \
+    wget \
+    libcurl4-openssl-dev 
 ```
 
 
